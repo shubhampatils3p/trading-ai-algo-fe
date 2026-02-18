@@ -223,6 +223,36 @@ export default function Config() {
         </div>
       </div>
 
+      {/* TRADE MODE */}
+      <div className="mb-8 rounded bg-purple-50 border-2 border-purple-300 p-6">
+        <h2 className="mb-4 text-xl font-bold text-purple-900">
+          📦 Trade Mode
+        </h2>
+
+        <div className="flex gap-6">
+          {["FUTURES", "OPTIONS"].map((mode) => (
+            <label key={mode} className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="trade_mode"
+                value={mode}
+                checked={config.trade_mode === mode}
+                onChange={(e) =>
+                  setConfig({ ...config, trade_mode: e.target.value })
+                }
+                disabled={isEmergency}
+              />
+              <span className="text-gray-700">{mode}</span>
+            </label>
+          ))}
+        </div>
+
+        <p className="mt-2 text-xs text-gray-600">
+          Select whether to trade Index Futures or Options contracts.
+        </p>
+      </div>
+
+
       {/* TRADE EXECUTION */}
       <div className="mb-8 rounded bg-white p-6 shadow">
         <h2 className="mb-4 text-xl font-bold text-gray-800">
