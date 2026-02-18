@@ -328,6 +328,30 @@ export default function Config() {
               Trading will lock if daily loss exceeds this amount
             </p>
           </div>
+            
+          {/* Risk Per Trade */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Risk Per Trade % (1 = 1%)
+            </label>
+            <input
+              type="number"
+              min="0.1"
+              max="100"
+              step="0.1"
+              className="mt-1 w-32 rounded border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+              value={config.risk_per_trade_pct || 1}
+              onChange={(e) =>
+                setConfig({
+                  ...config,
+                  risk_per_trade_pct: parseFloat(e.target.value),
+                })
+              }
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Percentage of capital to risk per trade
+            </p>
+          </div>
 
           {/* Max Trades */}
           <div>
