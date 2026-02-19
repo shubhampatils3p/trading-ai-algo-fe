@@ -78,7 +78,7 @@ export default function Dashboard() {
 
     setLoading(true);
     try {
-      await api.post(`/control/trades/${status.active_trade.trade_id}/close`);
+      await api.post(`/control/trades/close`);
       await fetchStatus();
     } catch (err) {
       setError("Failed to close trade");
