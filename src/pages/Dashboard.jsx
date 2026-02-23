@@ -143,7 +143,7 @@ export default function Dashboard() {
   const isIdle = status.algo_state === "IDLE";
   const isRecovery = status.algo_state === "RECOVERY";
 
-  const disableAll = loading || isEmergency || isRecovery;
+  const disableAll = loading || isEmergency;
 
   const activeTrade = status.active_trade;
   const riskStatus = status.risk_guard || {};
