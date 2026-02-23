@@ -91,39 +91,59 @@ export default function Dashboard() {
   }
 
   const getAlgoStatusUI = (status) => {
-    if (status.algo_state === "EMERGENCY_STOP") {
+  switch (status.algo_state) {
+    case "EMERGENCY_STOP":
       return {
         value: "🚨 EMERGENCY STOP",
         color: "red",
       };
-    }
 
-    if (status.algo_state === "STOPPED") {
+    case "STOPPED":
       return {
         value: "⛔ STOPPED",
         color: "gray",
       };
-    }
 
-    if (status.paused) {
+    case "PAUSED":
       return {
         value: "⏸ PAUSED",
         color: "yellow",
       };
-    }
 
-    return {
-      value: "▶ RUNNING",
-      color: "green",
-    };
-  };
+    case "IDLE":
+      return {
+        value: "🟡 IDLE",
+        color: "blue",
+      };
+
+    case "RECOVERY":
+      return {
+        value: "🔄 RECOVERY",
+        color: "purple",
+      };
+
+    case "RUNNING":
+      return {
+        value: "▶ RUNNING",
+        color: "green",
+      };
+
+    default:
+      return {
+        value: "❓ UNKNOWN",
+        color: "gray",
+      };
+  }
+};
 
   const isEmergency = status.algo_state === "EMERGENCY_STOP";
   const isRunning = status.algo_state === "RUNNING";
   const isPaused = status.algo_state === "PAUSED";
   const isStopped = status.algo_state === "STOPPED";
+  const isIdle = status.algo_state === "IDLE";
+  const isRecovery = status.algo_state === "RECOVERY";
 
-  const disableAll = loading || isEmergency;
+  const disableAll = loading || isEmergency || isRecovery;
 
   const activeTrade = status.active_trade;
   const riskStatus = status.risk_guard || {};

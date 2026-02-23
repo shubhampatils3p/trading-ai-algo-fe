@@ -280,17 +280,35 @@ export default function Config() {
             </p>
           </div>
 
-          {/* Stop Loss */}
+          {/* SL Mode */}
+<div>
+  <label className="block text-sm font-medium text-gray-700">
+    Stop Loss Mode
+  </label>
+  <select
+    className="mt-1 w-48 rounded border border-gray-300 p-2"
+    value={config.sl_mode || "percentage"}
+    onChange={(e) =>
+      setConfig({ ...config, sl_mode: e.target.value })
+    }
+  >
+    <option value="percentage">Percentage</option>
+    <option value="price">Price Distance (₹)</option>
+  </select>
+</div>
+
+    {/* Conditional SL Input */}
+        {config.sl_mode === "percentage" ? (
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Stop Loss % (0.3 = 30%)
             </label>
             <input
               type="number"
+              step="0.05"
               min="0.01"
               max="1"
-              step="0.05"
-              className="mt-1 w-32 rounded border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+              className="mt-1 w-32 rounded border border-gray-300 p-2"
               value={config.stop_loss_pct || 0.3}
               onChange={(e) =>
                 setConfig({
@@ -298,12 +316,28 @@ export default function Config() {
                   stop_loss_pct: parseFloat(e.target.value),
                 })
               }
-              disabled={isEmergency}
             />
-            <p className="mt-1 text-xs text-gray-500">
-              {fields.stop_loss_pct?.description}
-            </p>
           </div>
+        ) : (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Stop Loss Distance (₹)
+            </label>
+            <input
+              type="number"
+              step="0.5"
+              min="0.5"
+              className="mt-1 w-32 rounded border border-gray-300 p-2"
+              value={config.sl_price_distance || 5}
+              onChange={(e) =>
+                setConfig({
+                  ...config,
+                  sl_price_distance: parseFloat(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
 
           {/* Target */}
           <div>
@@ -383,6 +417,26 @@ export default function Config() {
             </p>
           </div>
 
+          <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Max Capital Utilization % (100 = full margin)
+          </label>
+          <input
+            type="number"
+            min="1"
+            max="100"
+            step="1"
+            className="mt-1 w-32 rounded border border-gray-300 p-2"
+            value={config.max_capital_utilization_pct || 100}
+            onChange={(e) =>
+              setConfig({
+                ...config,
+                max_capital_utilization_pct: parseFloat(e.target.value),
+              })
+            }
+          />
+        </div>
+
           {/* Max Trades */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -406,6 +460,25 @@ export default function Config() {
               Maximum trades allowed in a single trading day
             </p>
           </div>
+
+          <div>
+  <label className="block text-sm font-medium text-gray-700">
+    Minimum Risk:Reward Ratio
+  </label>
+  <input
+    type="number"
+    min="0.5"
+    step="0.1"
+    className="mt-1 w-32 rounded border border-gray-300 p-2"
+    value={config.min_rr_ratio || 1}
+    onChange={(e) =>
+      setConfig({
+        ...config,
+        min_rr_ratio: parseFloat(e.target.value),
+      })
+    }
+  />
+</div>
 
           {/* Cooldown */}
           <div>
